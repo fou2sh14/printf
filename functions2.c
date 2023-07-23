@@ -1,170 +1,174 @@
 #include "main.h"
 
+
 /**
- * print_pointer - lkdfnkfn ksdnvksf sdnvsdn
- * @sort: kdnkds sdkfnsdkfn kdfnksdfn
- * @buf: sldm sdfmsfms gksdn
- * @flag:  skngf skgnskfs ksdng kdgs
- * @wid: smdfvn sdkvnksdn sdgkn
- * @per: ksdnsjdfbsd fsdf jsdfbsdb sdgjb
- * @size: sdmn sdnf sdf sdnf
- * Return: osdn sdfnsd fsdkfn
+ * print_pointer - dflkn kdfndfnhkdfh  dh
+ * @types: dfklgndfkg df
+ * @buffer: fdkjg fgjdfgjdf gdf
+ * @flags:  ljsgnd fgjldfg djfg df g
+ * @width: djfkgd fgjldfgdf kfn
+ * @precision: dfklhndf hdfnhd hdf h
+ * @size: dfjlbndfljnhd dfknkdfhn
+ * Return: dghdfh fdhdfhdfhd
  */
-int print_pointer(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_pointer(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	char extra_c = 0, padd = ' ';
+	char extra_ch = 0, padding = ' ';
 	int ind = BUFF_SIZE - 2, length = 2, padd_start = 1; /* length=2, for '0x' */
 	unsigned long num_addrs;
 	char map_to[] = "0123456789abcdef";
-	void *addrs = va_arg(sort, void *);
+	void *addrs = va_arg(types, void *);
 
-	UNUSED(wid);
+	UNUSED(width);
 	UNUSED(size);
 
 	if (addrs == NULL)
 		return (write(1, "(nil)", 5));
 
 	buffer[BUFF_SIZE - 1] = '\0';
-	UNUSED(per);
+	UNUSED(precision);
 
 	num_addrs = (unsigned long)addrs;
 
 	while (num_addrs > 0)
 	{
-		buf[ind--] = map_to[num_addrs % 16];
+		buffer[ind--] = map_to[num_addrs % 16];
 		num_addrs /= 16;
 		length++;
 	}
 
-	if ((flag & F_ZERO) && !(flag & F_MINUS))
-		padd = '0';
-	if (flag & F_PLUS)
-		extra_c = '+', length++;
-	else if (flag & F_SPACE)
-		extra_c = ' ', length++;
+	if ((flags & F_ZERO) && !(flags & F_MINUS))
+		padding = '0';
+	if (flags & F_PLUS)
+		extra_ch = '+', length++;
+	else if (flags & F_SPACE)
+		extra_ch = ' ', length++;
 
 	ind++;
 
-	/*return (write(1, &buf[i], BUFF_SIZE - i - 1));*/
-	return (write_pointer(buf, ind, length,
-		wid, flag, padd, extra_c, padd_start));
+	/*return (write(1, &buffer[i], BUFF_SIZE - i - 1));*/
+	return (write_pointer(buffer, ind, length,
+		width, flags, padding, extra_ch, padd_start));
 }
 
-/**
- * print_non_printable - ksdg sdkfn sdfk sjdf sdjfsjdf
- * @sort: sdnfksdnf ksdfn kdnf
- * @buf: skdfn sfbsd f jdsfb df gsdf
- * @flag:  fdga sdgfds sdgfdg sfgs
- * @wid: sdfsdfdsf dsgsd sdgsdgsdg
- * @per: dsgsd sdgsdgsd sgsd
- * @size: sdgsd sd sdgsdg sdg
- * Return: sd sdsdgsd sdgsdgsdg
- */
-int print_non_printable(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
-{
-	int i = 0, offset = 0;
-	char *str = va_arg(sort, char *);
 
-	UNUSED(flag);
-	UNUSED(wid);
-	UNUSED(per);
+/**
+ * print_non_printable - Prints ascii codes in hexa of non printable chars
+ * @types: fsgsfgsfjgns fgjfsgs gs g
+ * @buffer: sfgsfgnfg sjfg sfjgs fg
+ * @flags:  sfgsfg sgsgsfgsfgsg
+ * @width: sgfsfgsfg sdgsdgsgtsdfsssdsg
+ * @precision: fgfs sgfdgfdgdfg gs
+ * @size: fgs sdgsfdgsfgsg
+ * Return: Nufgfgfgfg dfbdfbfdfdh df
+ */
+int print_non_printable(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
+{
+	int f = 0, offset = 0;
+	char *str = va_arg(types, char *);
+
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
 	UNUSED(size);
 
 	if (str == NULL)
 		return (write(1, "(null)", 6));
 
-	while (str[i] != '\0')
+	while (str[f] != '\0')
 	{
-		if (is_printable(str[i]))
-			buf[i + offset] = str[i];
+		if (is_printable(str[f]))
+			buffer[f + offset] = str[f];
 		else
-			offset += append_hexa_code(str[i], buf, i + offset);
+			offset += append_hexa_code(str[f], buffer, f + offset);
 
-		i++;
+		f++;
 	}
 
-	buf[i + offset] = '\0';
+	buffer[f + offset] = '\0';
 
-	return (write(1, buf, i + offset));
+	return (write(1, buffer, f + offset));
 }
+
 /**
  * print_reverse - Prints reverse string.
- * @sort: sdj sdfjsd sjd  sdjng
- * @buf: fsg sdgsdg sdgsg
- * @flag:  Casfd sdesdsd  sdgsdlags
- * @wid: sfg sdsdf df
- * @per: ds fsd v ssfsgcsidssdn  sdvsdg
- * @size: df dfa gsdgdsds sdsf
- * Return:  sdg adfasdsdg  dssdsdf dg
+ * @types: L kngkrng dfgkndfkgndf dfkh
+ * @buffer: dfklgndf dkfgndfkgndf gkdfgn
+ * @flags:  dlfjgfgnjdfg dfkgndfkgnd fgknf
+ * @width: kfdgdfkg kdfn dkfgnn
+ * @precision: dlkghb dkdfngd fkdfng
+ * @size: dfklgndfg dkfgndfkng dfg
+ * Return: Nudfdgkndfkg dfgkndfkgn
  */
 
-int print_reverse(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_reverse(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	char *str;
-	int i, count = 0;
+	int f, count = 0;
 
-	UNUSED(buf);
-	UNUSED(flag);
-	UNUSED(wid);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
 	UNUSED(size);
 
-	str = va_arg(sort, char *);
+	str = va_arg(types, char *);
 
 	if (str == NULL)
 	{
-		UNUSED(per);
+		UNUSED(precision);
 
-		str = ")Null(";
+		str = "(Null)";
 	}
-	for (i = 0; str[i]; i++)
+	for (f = 0; str[f]; f++)
 		;
 
-	for (i = i - 1; i >= 0; i--)
+	for (f = f - 1; f >= 0; f--)
 	{
-		char z = str[i];
+		char z = str[f];
 
 		write(1, &z, 1);
 		count++;
 	}
 	return (count);
 }
+
 /**
- * print_rot13string - sdg dgsdgsdgsdg sdgs egsdg
- * @sort:  dsg sgsdgg segsdgsdg
- * @buf: Buffer array to handle print
- * @flag:  sdsdg sdgsdgsdggs
- * @wid: sdgsdg dsfsdgsdg dssdg
- * @per:  dffsdsdgd  sdgsdgsdg
- * @size: ds dsggedgsdg
- * Return: gsd sdg sdg  gsdg
+ * print_rot13string - Print a string in rot13.
+ * @types: dfklngkdfngdfkng dfndfkn df,fdn
+ * @buffer: dkfngkdfng mdfndfklndf ldfn
+ * @flags:  lkfdnglkdfg flkgndfklngdf hln
+ * @width: dlkfglkdfg dfklhndfklhndf
+ * @precision: Precision specification
+ * @size: Ssjgsg fkngsfkng skfgnskgn
+ * Return: Nsklfng kdfngd fgdfkgndf gfdgnskf
  */
-int print_rot13string(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_rot13string(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	char x;
 	char *str;
-	unsigned int i, j;
+	unsigned int f, j;
 	int count = 0;
 	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
-	str = va_arg(sort, char *);
-	UNUSED(buf);
-	UNUSED(flag);
-	UNUSED(wid);
-	UNUSED(per);
+	str = va_arg(types, char *);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
 	UNUSED(size);
 
 	if (str == NULL)
 		str = "(AHYY)";
-	for (i = 0; str[i]; i++)
+	for (f = 0; str[f]; f++)
 	{
 		for (j = 0; in[j]; j++)
 		{
-			if (in[j] == str[i])
+			if (in[j] == str[f])
 			{
 				x = out[j];
 				write(1, &x, 1);
@@ -174,7 +178,7 @@ int print_rot13string(va_list sort, char buf[],
 		}
 		if (!in[j])
 		{
-			x = str[i];
+			x = str[f];
 			write(1, &x, 1);
 			count++;
 		}
