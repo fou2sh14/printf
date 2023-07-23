@@ -1,73 +1,73 @@
 #include "main.h"
 
+
 /**
-* print_ch - prints char
-* @sort : arg list
-* @buf : buffer to handel print
-* @flag : good ffkfjgmdk
-* @wid : ofnopjgddf slfmlsfm
-* @per : ffefef dkmsfls dkenfkfn
-* @size : ldfjdfodjflldf dfndlmf dfn
-* Return : oodo dlfmdlfm
-*/
-
-int print_ch(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+ * print_char - Prints a char
+ * @types:lkdfgldf flgndkflgdf sg
+ * @buffer: lknfdglkdfngnkmsg smfg kslfg
+ * @flags:  dflgnldf fdgnfkldg dfsgm
+ * @width: sklfgnsldg sdk;gnskfgn
+ * @precision:dkfg dfkgndfkgn dfgk
+ * @size: rsklgn klfngsg dgfdkgn
+ * Return: kjfdgjdfg sgn
+ */
+int print_char(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	char c = va_arg(sort, int);
+	char c = va_arg(types, int);
 
-	return (handle_write_char(c, buf, flag, wid, per, size));
+	return (handle_write_char(c, buffer, flags, width, precision, size));
 }
 
 /**
- * print_str - sdkgnksdng
- * @sort: dfsd dgfsdf fsdgsdg f df
- * @buf: dfkgkdf skgskdjg sdgjskgj
- * @flag: sdmslkmdgskgm kdsnksdn dksg ksdgn
- * @wid: sdjnsjd dshdsjhgjsd dsjdjsg
- * @per: sdkfjsdkg sdjgsdjg sdgjsdogjso
- * @size: kfd skdgnsdkg sdkgksdgns sdgkn
- * Return: rglndfkg dfklgnfkgn flkgndflkng
+ * print_string - Prints a string
+ * @types: List a of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width.
+ * @precision: Precision specification
+ * @size: Size specifier
+ * Return: Number of chars printed
  */
-int print_str(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_string(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	int length = 0, i;
-	char *str = va_arg(sort, char *);
+	char *str = va_arg(types, char *);
 
-	UNUSED(buf);
-	UNUSED(flag);
-	UNUSED(wid);
-	UNUSED(per);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
 	UNUSED(size);
 	if (str == NULL)
 	{
 		str = "(null)";
-		if (per >= 6)
+		if (precision >= 6)
 			str = "      ";
 	}
 
 	while (str[length] != '\0')
 		length++;
 
-	if (per >= 0 && per < length)
-		length = per;
+	if (precision >= 0 && precision < length)
+		length = precision;
 
-	if (wid > length)
+	if (width > length)
 	{
-		if (flag & F_MINUS)
+		if (flags & F_MINUS)
 		{
 			write(1, &str[0], length);
-			for (i = wid - length; i > 0; i--)
+			for (i = width - length; i > 0; i--)
 				write(1, " ", 1);
-			return (wid);
+			return (width);
 		}
 		else
 		{
-			for (i = wid - length; i > 0; i--)
+			for (i = width - length; i > 0; i--)
 				write(1, " ", 1);
 			write(1, &str[0], length);
-			return (wid);
+			return (width);
 		}
 	}
 
@@ -75,52 +75,52 @@ int print_str(va_list sort, char buf[],
 }
 
 /**
- * print_percent - odfo fgngkg nfknfg
- * @sort: fgkdg fdg fgm fgfkg
- * @buf: dflgmg fdgmldfmgldf  dflmgdfg
- * @flag:  kfdgnkdf kfgnkdfng dfngkk
- * @wid: kdfmdf lfddlfg.
- * @per: sflgmslg skgmlsmg
- * @size: sdmfksf skfmsdkfn kdsfnksdnf
- * Return: Number of chars printed
+ * print_percent - Prints a percent sign
+ * @types: klsjg sgndfsklgnsdfng
+ * @buffer: kldfhrgre drlkgnkdfgnd
+ * @flags:  kldfg fmgndfljgndf gmn
+ * @width:kslfng smgnsklfgn
+ * @precision: kldfgjlkdfgjgdj smgnsg fsgfion
+ * @size: skfjgf fkgjdfkgn
+ * Return: dfkgndfg dfgndkgnd gkdng
  */
-int print_percent(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_percent(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	UNUSED(sort);
-	UNUSED(buf);
-	UNUSED(flag);
-	UNUSED(wid);
-	UNUSED(per);
+	UNUSED(types);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
 	UNUSED(size);
 	return (write(1, "%%", 1));
 }
 
-
+/************************* PRINT INT *************************/
 /**
  * print_int - Print int
- * @sort: kdsg ksgnksgn ksgnksg
- * @buf: sdmsd sdgms;dkmng fdmgkdfgm
- * @flag:  smfksdmlsd lsdgmlsdg lsdmg
- * @wid: ksdnk skdnksdng
- * @per: dslksd skdsdklns ddlsmg
- * @size: lsdmgl ksdnksdng
- * Return: sdkfnsdkgnsdng skfngs
+ * @types: Lskfghidofgh jfgndjlfgndf jg
+ * @buffer: dfkgndkfgdfgkndg dkgnidgnerign rkg
+ * @flags: dfkgjdf gdkfgndf gkdfg
+ * @width: sdkngsdfg kfdgndfgndfgkn
+ * @precision: dfjnkdfg fkgdfgn dfg
+ * @size: dflgndfg kdfgndkfg dkfg
+ * Return: dflgdf gdfkgd fgdfn
  */
-int print_int(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_int(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
 	int is_negative = 0;
-	long int n = va_arg(sort, long int);
+	long int n = va_arg(types, long int);
 	unsigned long int num;
 
 	n = convert_size_number(n, size);
 
 	if (n == 0)
-		buf[i--] = '0';
+		buffer[i--] = '0';
 
-	buf[BUFF_SIZE - 1] = '\0';
+	buffer[BUFF_SIZE - 1] = '\0';
 	num = (unsigned long int)n;
 
 	if (n < 0)
@@ -131,39 +131,40 @@ int print_int(va_list sort, char buf[],
 
 	while (num > 0)
 	{
-		buf[i--] = (num % 10) + '0';
+		buffer[i--] = (num % 10) + '0';
 		num /= 10;
 	}
 
 	i++;
 
-	return (write_number(is_negative, i, buf, flag, wid, per, size));
+	return (write_number(is_negative, i, buffer, flags, width, precision, size));
 }
 
+/************************* PRINT BINARY *************************/
 /**
- * print_binary - sdfls sdlgmsdlgm lmdglmdgs
- * @sort: ksdgnksdgn sdkgnkdgn
- * @buf: Bfgsfgsg sdsdgsdg sdgg
- * @flag:  dsf dfsdg ddsgsdg
- * @wid: fgsg sdfsdgg dgsdgs
- * @per: sgsdg dfsdgg dssdg
- * @size: dg dgdsgsd dsdgsdgsg
- * Return: sdgsdg sdgsdg dsdgg
+ * print_binary - Prints an unsigned number
+ * @types: knbdf gdkfgdf mgn
+ * @buffer: klsfng fgfldgnd fgmdfgn
+ * @flags:  sjldfns fsdjfbsd fsd,fn
+ * @width: sdljnfs fsdjlfns dfsdfn
+ * @precision: sjls fljsdfsd ,nf sdjlf
+ * @size: sjldfhsd fsdklfsdf
+ * Return: sdklnfsd fklsdnfsd fl
  */
-int print_binary(va_list sort, char buf[],
-	int flag, int wid, int per, int size)
+int print_binary(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	unsigned int n, m, i, sum;
 	unsigned int a[32];
 	int count;
 
-	UNUSED(buf);
-	UNUSED(flag);
-	UNUSED(wid);
-	UNUSED(per);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
 	UNUSED(size);
 
-	n = va_arg(sort, unsigned int);
+	n = va_arg(types, unsigned int);
 	m = 2147483648; /* (2 ^ 31) */
 	a[0] = n / m;
 	for (i = 1; i < 32; i++)
